@@ -190,14 +190,18 @@ func (c *Application) onGuildDelete(g *gateway.GuildDeleteEvent) {
 }
 
 func (c *Application) onMessageCreate(m *gateway.MessageCreateEvent) {
-	if c.view.ChannelsView.selected != nil && m.ChannelID == c.view.ChannelsView.selected.ID {
-		_, err := c.view.MessagesView.Write(buildMessage(c, m.Message))
-		if err != nil {
-			return
-		}
+	if c.view.ChannelsView.selected != nil {
+        if m.ChannelID == c.view.ChannelsView.selected.ID {
+			_, err := c.view.MessagesView.Write(buildMessage(c, m.Message))
+			if err != nil {
+				return
+			}
 
-		if len(c.view.MessagesView.GetHighlights()) == 0 {
-			c.view.MessagesView.ScrollToEnd()
+			if len(c.view.MessagesView.GetHighlights()) == 0 {
+				c.view.MessagesView.ScrollToEnd()
+			}
+	    } else {
+
 		}
 	}
 }
