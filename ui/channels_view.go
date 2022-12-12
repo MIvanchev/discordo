@@ -5,6 +5,7 @@ import (
 	"sort"
 
 	"github.com/diamondburned/arikawa/v3/discord"
+    "github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -161,3 +162,26 @@ func (v *ChannelsView) createChildrenChannelNodes(root *tview.TreeNode, cs []dis
 		}
 	}
 }
+
+func (v *ChannelsView) markAsUnread(channelID discord.ChannelID) {
+	node := v.findNodeForChannel(channelID)
+	if node != nil {
+		//v.channelStates[node] = channelUnread
+		node.SetColor(tcell.ColorOrange)
+	}
+}
+
+func (v *ChannelsView) findNodeForChannel(channelID discord.ChannelID) *tview.TreeNode {
+	var res *tview.TreeNode
+	v.GetRoot().Walk(func(node, parent *tview.TreeNode) bool {
+		if node.GetReference() == channelID {
+		    res = node
+			return false
+		}
+
+		return true
+	})
+
+	return res
+}
+

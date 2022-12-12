@@ -201,7 +201,7 @@ func (c *Application) onMessageCreate(m *gateway.MessageCreateEvent) {
 				c.view.MessagesView.ScrollToEnd()
 			}
 	    } else {
-
+			c.view.ChannelsView.markAsUnread(m.ChannelID)
 		}
 	}
 }
